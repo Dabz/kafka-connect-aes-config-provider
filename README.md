@@ -41,3 +41,31 @@ java -jar kafka-connect-aes-config-provider-<version>-command.jar decrypt <base6
 ## Connector configuration
 
 `${<provider name>:<key name>:<encrypted value>}`
+
+# Example
+
+Kafka Connect configuration
+
+```
+# AES Config Provider
+
+config.providers=aes
+config.providers.aes.class=io.dabz.AESCBCConfigProvider
+config.providers.aes.param.keys.test.key=rXEM9J7EqGwUt40r+7ejphu7Q0L+ERuwp48CXiujIAY=
+config.providers.aes.param.keys.test.iv=1234567891234567
+```
+
+Connector configuration
+```json
+{
+  "name": "file-source",
+  "connector.class": "FileStreamSource",
+  "tasks.max": "1",
+  "file": "${aes:test:vyKiran2DliRxhXXlCpT0g==}",
+  "topic": "file-test",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "producer.override.sasl.jaas.config": "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required  username=\"mds\" password=\"${aes:test:jQnOBoPYjnGRIiEwtmiaPg==}\" metadataServerUrls=\"http://localhost:8090\";"
+}
+
+````
