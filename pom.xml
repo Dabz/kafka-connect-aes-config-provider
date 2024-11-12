@@ -20,6 +20,7 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>connect-api</artifactId>
             <version>${kafka.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -34,7 +35,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -49,6 +50,11 @@
                                     <mainClass>io.dabz.AESCBCConfigProvider</mainClass>
                                 </transformer>
                             </transformers>
+                            <extraArtifacts>
+                                <extraArtifact>org.apache.kafka:connect-api:3.7.0</extraArtifact>
+                                <extraArtifact>org.apache.kafka:kafka-clients:jar:3.7.0</extraArtifact>
+                            </extraArtifacts>
+
                             <artifactSet>
                                 <excludes>
                                     <exclude>junit:junit</exclude>
